@@ -1,0 +1,30 @@
+<html>
+<head>
+
+<script type="text/javascript">
+	var myApp = ( function(){
+		 
+		  var foo = 'Module Pattern';
+		  var bar = 'ver 1.0';
+		 
+		  var sum = function( param1, param2 ){
+		    return param1 + param2;
+		  }
+		 
+		  return {
+		    myMessage: function(){
+		      return foo + ' ' + bar;
+		    },
+		    sumar: function(a,b){
+		    	return sum(a,b);
+		    }
+		  }
+		})();
+	 
+	alert( myApp.myMessage() ); // Module Pattern ver 1.0
+	alert( myApp.sumar( 10, 5 ) ); // myApp.sum is not a function. sum es privada
+</script>
+
+</head>
+<body></body>
+</html>

@@ -1,0 +1,206 @@
+body {
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #ffffff;
+}
+
+text{
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: medium;
+}
+
+textarea {
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: medium;
+}
+
+.error-textarea {
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+
+select {
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+
+a {	color: #003399; }
+
+a:link {
+	font-family: verdana;
+	font-size: 15px;
+	text-decoration : none;
+	color:#B60719;
+}
+
+a:visited {
+	font-family: verdana;
+	font-size: 15px;
+	text-decoration : none;
+	color:#B60719;
+}
+
+a:hover {
+	font-family: verdana;
+	font-size: 15px;
+	text-decoration : underline;
+	color : #000000;
+}
+
+a:active {
+	font-family: verdana;
+	font-size: 15px;
+	text-decoration :
+	none;
+	color:#FF9900;
+}
+
+.boton {
+	font-size: medium;
+	font-weight: bold;
+	color: #000066;
+}
+
+.boton-mini {
+	font-size: small;
+	color: #000000;
+}
+
+.titulo-tabla {
+	font-size: medium;
+	font-weight: bold;
+	color: #000066;
+}
+
+.titulo-principal {
+	font-size: x-large;
+	font-weight: bold;
+	color: #000099;
+}
+
+.Estilo1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+
+}
+
+.Estilo2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	color: #FFFFFF;
+}
+
+.Estilo3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.Estilo5 {font-family: Arial, Helvetica, sans-serif; color: #000000; }
+
+.Estilo7 {
+	font-family: "Times New Roman", Times, serif;
+	color: #980E1D;
+	font-weight: bold;
+}
+
+.Estilo8 {
+	font-family: "Times New Roman", Times, serif;
+	color: #F2BC10;
+	font-weight: bold;
+}
+
+.EstiloError1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FF0000;
+}
+
+#cabecera {
+	width:743; height:161;
+	background-image:url(../images/encabezado.jpg);
+	background-repeat:none;
+	}
+#cabecera ul {
+	margin-left:10px;
+	padding: 0;
+	cursor: default;
+	list-style-type: none;
+	display: table inline;
+	height:2em;
+}
+
+#cabecera li {
+	float:left;
+	display: table-cell;
+	position: relative;
+	padding: 2px 6px;
+	border: 1px solid #e3281c;
+	}
+
+#cabecera li a {
+	display: block;
+	padding: 2px 5px;
+	color: white;
+	font-family: verdana; font-size: 10px; text-decoration : none;
+}
+
+#cabecera li p.disabled {
+	display: block;
+	padding: 2px 5px;
+	color: #c5c5c5;
+	font-family: verdana; font-size: 10px;
+
+	margin-top:0px;
+	margin-bottom:0px;
+}
+
+#cabecera li a:hover{
+	background-color: #e3281c;
+	color: #fff;
+	font-family: verdana; font-size: 10px;
+}
+
+#selsimple {
+	margin-left:10px;
+	padding: 0;
+	cursor: default;
+	list-style-type: none;
+	display: table inline;
+	height:2em;
+	}
+	
+#selsimple li {
+	float:left;
+	display: table-cell;
+	position: relative;
+	padding: 2px 6px;
+	margin-right:2px;
+	border: 1px solid #e3281c;
+}
+
+#selsimple li #titulo {
+	background-color:#FFFFFF;
+	text-align:center;
+	font-family: "Times New Roman", Times, serif;
+	color: #F2BC10;
+	font-weight: bold;
+}
+
+#selsimple li #instrucciones {
+
+}
+
+#paginador {
+	font-family: verdana;
+	font-size: 25px;
+	font-weight: bold;	
+	text-decoration : none;
+	color:blue;
+}
+
+.error{
+	color: red;
+	font-weight: bold;
+}

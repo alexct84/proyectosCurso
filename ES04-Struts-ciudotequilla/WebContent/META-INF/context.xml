@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Context path="/struts-ciudotequilla" docBase="struts-ciudotequilla" debug="5" reloadable="true" crossContext="true">
+	
+   <!-- maxActive: número máximo de conexiones JDBC disponibles en el pool al mismo tiempo.
+  Con 20 se soportan unos 600 usuarios concurrentes. Nunca debe superar el max num de conex 
+  admitido por el server. En MySQL 5.X es de 100. Mirar fichero my.ini
+  Su valor será 0 si no se quiere limitar -->
+
+  <!-- maxIdle: número máximo de conexiones disponibles en el pool, pero ociosas (no se están utilizando).
+   Su valor será -1 si no se quiere limitar. -->
+   
+  <!-- maxWait: tiempo máximo de espera admisible, en msg, para obtener una conexion del pool. 
+  Si se supera se lanza una excepcion (-1 para esperar indefinidamente) -->
+  
+	<Resource name="jdbc/ciudades" auth="Container" type="javax.sql.DataSource"
+           maxActive="100" maxIdle="10" maxWait="120000"
+           username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
+           url="jdbc:mysql://localhost:3306/ciudoteca"/>
+           
+      
+	<Realm className="org.apache.catalina.realm.JDBCRealm" connectionName="root" 
+		connectionPassword="root" connectionURL="jdbc:mysql://localhost/ciudoteca" 
+		driverName="com.mysql.jdbc.Driver" userTable="usuarios" userNameCol="mail" userCredCol="password" 
+		userRoleTable="usuarios_roles" roleNameCol="rol_usuario" />
+</Context>

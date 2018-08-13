@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<title>JavaScript Patterns</title>
+<meta charset="utf-8">
+</head>
+<body>
+	<script>
+		/* Title: Command
+		 Description: creates objects which encapsulate actions and parameters
+		 */
+
+		(function() {
+
+			//json["string"] // json.string
+			
+			var CarManager = {
+
+				/* request information */
+				requestInfo : function(model, id) {
+					return 'The purchase info for ' + model + ' with ID ' + id
+							+ ' is being processed...';
+				},
+
+				/* purchase the car */
+				buyVehicle : function(model, id) {
+					return 'You have successfully purchased Item ' + id
+							+ ', a ' + model + '.';
+				},
+
+				userInSession : function(user) {
+					return 'The user ' + user + ' is in session';
+				}
+
+			};
+
+			CarManager.execute = function(commad) {
+				return CarManager[commad.request](commad.arg1, commad.arg2);
+			};
+
+			console.log(CarManager.execute({
+				request : 'requestInfo',
+				arg1 : 'Ford Mondeo',
+				arg2 : '543434'
+			}));
+			console.log(CarManager.execute({
+				request : 'buyVehicle',
+				arg1 : 'Ford Mondeo',
+				arg2 : '543434'
+			}));
+			console.log(CarManager.execute({
+				request : 'userInSession',
+				arg1 : 'Fer'
+			}));
+
+		})();
+	</script>
+</body>
+</html>

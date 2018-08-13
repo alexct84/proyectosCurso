@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+			"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<class name="trilcejf.vo.Ciudad" table="ciudades" lazy="false"><!-- pag 50 de hibernate_reference v3.2 -->
+		<id name="idCiudad" column="id_ciudad" type="long"><!-- pag 53. Hb types en 73 -->
+			<generator class="native"/>
+		</id>
+		<property name="nombreCiudad"
+				  column="nombre_ciudad"
+				  type="string"
+				  not-null="true" />
+		<!-- set no es permitido por las datatables de la jsf's ya que tiene que ser un list -->
+		<bag name="lugares" table="lugares" cascade="all" inverse="true" lazy="false">
+			<key column="ciudad_id"/><!-- pag 70 -->
+			<one-to-many class="trilcejf.vo.Lugar" />
+		</bag>
+	</class>
+</hibernate-mapping>

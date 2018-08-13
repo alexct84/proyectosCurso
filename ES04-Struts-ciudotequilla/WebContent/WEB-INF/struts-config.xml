@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<!-- Fichero de configuración de Struts para la aplicación -->
+<struts-config>
+ 	
+  	<!-- Definición de los form beans (beans de formulario) -->   
+	<form-beans>
+    	<form-bean	name="ciudadForm" type="trilcejf.forms.CiudadForm"/>
+    	<form-bean	name="lugarForm" type="trilcejf.forms.LugarForm"/>
+	</form-beans>
+	
+   	<!-- Accesibles desde cq jsp o Action de la aplic. Explicación al final de esta página-->
+	<global-forwards>
+		<forward name="inicio" path="/ciudoteca/home.do" redirect="true"/>
+		<forward name="fracaso" path="/error.jsp"/>
+	</global-forwards>
+	
+	<!-- Definición de las action mappings (mapeos o emparejamientos de acción) -->   
+	<action-mappings>
+		
+		<action	path="/ciudoteca/home" type="trilcejf.actions.ActionObtenerCiudades"
+          		validate="false" unknown="true">
+          		
+			<forward name="exito" path="/index.jsp"/>
+			
+    	</action>
+		
+    	<action	path="/obtenerLugaresCiudad" type="trilcejf.actions.ActionObtenerLugaresCiudad"
+           		name="ciudadForm" scope="request"
+          		validate="false">
+          		
+  			<forward name="exito" path="/mostrarResultados.jsp"/>
+  			<forward name="exito_bis" path="/listaLugaresCiudad.jsp"/>
+    	</action>
+    	
+    	<action	path="/crearCiudad" type="trilcejf.actions.ActionCrearCiudad"
+           		name="ciudadForm" scope="request"
+          		validate="true" input="/crearCiudad.jsp">
+          		
+          		<!-- redirect=true evita el intento de repeticion de la creacion de una ciudad 
+          		cuando el user pulsa el boton actualizar.
+          		Efectos: se eliminan los atribs de request y se muestra en barra de direcciones del navegador
+          		una path inocua (listarCiudades.do) ante actualizaciones indebidas del user.
+          		Si no se define asume el valor por defecto de false y la path que queda es crearCiudad.do
+          		En estas condiciones, si el user actualiza, se invocaria de nuevo a ActionCrearCiudad
+          		volviendo a pasarle los params de request e intentando crear una ciudad ya existente.
+          		Como en la BD el nombre de la ciudad tiene asignado un indice de tipo UNIQUE
+          		se lanza una SQLException  -->
+			<forward name="exito" path="/listarCiudades.do" redirect="true"/>
+			<forward name="crearFormuCrear" path="/crearCiudad.jsp"/>
+			<forward name="ciudadyaexistente" path="/crearCiudad.jsp"/>	
+    	</action>
+    	
+    	<action	path="/borrarCiudad" type="trilcejf.actions.ActionBorrarCiudad"
+           		name="ciudadForm" scope="request"
+          		validate="false">
+          	
+          	<forward name="crearFormuBorrar" path="/borrarCiudad.jsp"/>
+			<forward name="exito" path="/listarCiudades.do"/>
+    	</action>
+    	
+    	<action	path="/editarCiudad" type="trilcejf.actions.ActionModificarCiudad"
+           		name="ciudadForm" scope="request"
+          		validate="true" input="/editarCiudad.jsp">
+          		
+			<forward name="crearFormuEditar" path="/editarCiudad.jsp"/>
+			<forward name="exito" path="/listarCiudades.do" redirect="true"/>
+  			<forward name="ciudadyaexistente" path="/editarCiudad.jsp"/>	
+		</action>
+		
+		<action	path="/listarCiudades" type="trilcejf.actions.ActionListarCiudades"
+          		validate="false">
+          		
+			<forward name="exito" path="/listaCiudades.jsp"/>
+    	</action>
+    	
+		<action	path="/crearLugar" type="trilcejf.actions.ActionCrearLugar"
+           		name="lugarForm" scope="request"
+          		validate="true">
+          		
+          	<forward name="crearFormuCrear" path="/crearLugar.jsp"/>
+			<forward name="exito" path="/obtenerLugaresCiudad.do"/>
+			<forward name="lugarYaExiste" path="/crearLugar.jsp"/>
+		</action>
+		
+		<action	path="/borrarLugar" type="trilcejf.actions.ActionBorrarLugar"
+           		name="lugarForm" scope="request"
+          		validate="false">
+          		
+          	<forward name="crearFormuBorrar" path="/borrarLugar.jsp"/>
+			<forward name="exito" path="/obtenerLugaresCiudad.do"/>
+    	</action>
+    	
+    	<action	path="/editarLugar" type="trilcejf.actions.ActionModificarLugar"
+           		name="lugarForm" scope="request"
+          		validate="true">
+          		
+          	<forward name="crearFormuEditar" path="/editarLugar.jsp"/>
+			<forward name="exito" path="/obtenerLugaresCiudad.do"/>
+			<forward name="lugarYaExiste" path="/editarLugar.jsp"/>
+		</action>
+   
+ 	</action-mappings>
+
+ 	<!-- Definición de los recursos para mensajes (ficheros properties que se ubican en la classpath (WEB-INF/classes)
+ 	     A través de ellos, se da soporte a la internacionalización de la aplicación -->
+  	<message-resources parameter="ApplicationResources" null="false"/>
+  	
+  		<!-- Soporte plugin Validator de Struts -->
+  	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" 
+                      value="/WEB-INF/validator-rules.xml,
+                             /WEB-INF/validation.xml" />
+    </plug-in>
+</struts-config>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+	<title>Javascript MVC</title>
+    <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+    
+	<style>
+	.row {
+	    padding-top: 10px;
+	}
+	.btn {
+	    width: 5em;
+	}
+	</style>
+	
+	<script>
+        
+    
+    var ListModel = function(items) {
+        this._items = items;
+        this._selectedIndex = -1;
+        
+        this.addItemEvent = new Event(this);
+        this.deleteItemEvent = new Event(this);
+        this.setSelectedIndexEvent = new Event(this);
+        
+    };
+        
+        
+    ListModel.prototype = {
+        
+        addItem : function (item) {
+            this._items.push(item);
+            this.addItemEvent.notify();
+        },
+        
+        deleteItem : function (index) {
+            this._items.splice(index, 1);
+            this.deleteItemEvent.notify();
+        },
+        
+        getItems: function () {
+            return [].concat(this._items);
+        },
+        
+        getSelectedIndex : function () {
+            return this._selectedIndex;
+        },
+        
+        setSelectedIndex : function (index) {
+            var previousIndex = this._selectedIndex;
+            this._selectedIndex = index;
+            this.setSelectedIndexEvent.notify();
+        },
+        
+    };
+        
+        
+        
+    var Event = function (sender) {
+        this._sender = sender;
+        this._listeners = [];
+    }
+    
+    Event.prototype = {
+      
+        attach: function (listener) {
+            this._listeners.push(listener);
+        },
+        
+        notify : function (args) {
+            for(var i = 0; i < this._listeners.length; i += 1) {
+             this._listeners[i](this._sender, args);   
+            }
+        }
+        
+    };
+    
+        
+        
+        
+        
+    var ListView = function (model, elements) {
+        this._model = model;
+        this._elements = elements;
+        
+        this.addItemEvent = new Event(this);
+        this.deleteItemEvent = new Event(this);
+        this.setSelectedIndexEvent = new Event(this);
+        
+        
+        var self = this;
+        
+        this._model.addItemEvent.attach(function(){
+            self.rebuildList();
+        });
+        
+        this._model.deleteItemEvent.attach(function (){
+            self.rebuildList();
+        });
+        
+        
+        this._elements.list.change(function (event) {
+            var index = event.currentTarget.selectedIndex;
+            self.setSelectedIndexEvent.notify({index : index});
+        });
+        
+        this._elements.addButton.click(function () {
+            self.addItemEvent.notify();
+        });
+        
+        this._elements.delButton.click(function () {
+           self.deleteItemEvent.notify();
+        });
+        
+    };
+        
+    ListView.prototype = {
+        
+        show : function () {
+            this.rebuildList();
+        },
+        
+        rebuildList : function () {
+            console.log(this._model._items);
+        
+            var key, items, list;
+        
+            items = this._model._items;
+            
+            var list = this._elements.list;
+            list.html('');
+            
+            for(var key in items) {
+                list.append('<option>'+ items[key] + '</option>');
+            }
+            
+            this._model.setSelectedIndex(-1);
+            
+        }
+        
+    };
+        
+        
+        
+        
+        
+    var ListController = function (model, view) {
+        this._model = model;
+        this._view = view;
+        
+        var self = this;
+        
+        this._view.addItemEvent.attach(function () {
+            self.addItem();
+        });
+        
+        this._view.deleteItemEvent.attach(function () {
+            var index = self._model.getSelectedIndex();
+            self.deleteItem(index);
+        });
+        
+        this._view.setSelectedIndexEvent.attach(function (sender, data) {
+            var index = data.index;
+            self.setSelectedIndex(index);
+        });
+        
+    };
+        
+        
+    ListController.prototype = {
+        
+        addItem : function () {
+            var item = window.prompt("enter item name", "");
+            this._model.addItem(item);
+        },
+        
+        deleteItem : function (index) {
+            this._model.deleteItem(index);
+        },
+        
+        setSelectedIndex : function (index) {
+            this._model.setSelectedIndex(index);
+        }
+        
+    };
+        
+        
+        
+        $(function () {
+    var model = new ListModel(['PHP', 'JavaScript']),
+        view = new ListView(model, {
+            'list' : $('#list'), 
+            'addButton' : $('#plusBtn'), 
+            'delButton' : $('#minusBtn')
+        }),
+        controller = new ListController(model, view);
+    
+    view.show();
+});
+    
+      
+        
+	</script>
+</head>
+
+
+<body>
+<div class="row container">
+    <div class="col-xs-4">
+        <select id="list" class="form-control" size="10"></select>
+    </div>
+    <div class="col-xs-8">
+        <button id="plusBtn" class="btn btn-default btn-block">+</button>
+        <button id="minusBtn" class="btn btn-default btn-block">-</button>
+    </div>
+</div>	
+</body>
+</html>

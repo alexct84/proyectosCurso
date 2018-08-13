@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <script>
+      var Producto = function(id, nombre, precio, disponible, cantidad) {
+		this.id = id;
+		this.nombre = nombre;
+		this.precio = precio;
+		this.disponible = disponible;
+		this.cantidad = cantidad;
+	  };
+	  Producto.prototype = {
+			  addProductos:function (producto) {
+					this.productos[this.productos.length] = producto;
+				},
+	  };
+	  
+	  var Usuario = function(nombre) {
+			this.nombre = nombre;
+		  };
+	  
+	   Usuario.prototype = {
+			   añadirUsuarios:function (usuario) {
+					this.usuarios[this.usuarios.length] = usuario;
+				}, 
+	   };
+	
+	  var observador = {
+			 avisarUsuario:  function (what) {
+					for (var i = 0; i < this.usuarios.length; i++) {
+						if (typeof this.usuarios[i] === 'function') {
+							this.usuarios[i](what);
+						}
+					}
+			     },
+			 make:function (o) { 
+						for (var i in this) {
+							o[i] = this[i];
+							o.usuarios = [];
+						}
+					}		
+	  };	  
+	  
+	   var repartidor = {
+		    avisar: function(){
+		    	  this.avisarUsuario('Se ha añadido un producto'); 
+		    } 
+	     };
+	   
+	  observador.make(repartidor); 
+	  console.log(repartidor);
+	  
+		var nuevo = {
+				naranjas:function (what) {
+					console.log('Han llegado ' + what)
+				}
+			};
+	    
+	  
+		</script>
+</body>
+</html>

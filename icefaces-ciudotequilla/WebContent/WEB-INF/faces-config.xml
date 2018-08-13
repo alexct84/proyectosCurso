@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+  "http://java.sun.com/dtd/web-facesconfig_1_0.dtd" >
+
+<faces-config>
+
+    <application>
+        <view-handler>
+            com.icesoft.faces.facelets.D2DFaceletViewHandler
+        </view-handler>
+    </application>
+
+	<!-- Da soporte a Spring para que reconozca los patrones del tipo *.jsf -->
+	<application>
+		<!-- lo hemos comentado y no ha petaovariable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver-->
+		<locale-config>
+			<default-locale>es</default-locale>
+		</locale-config>
+		<message-bundle>mensajes</message-bundle>
+	</application>
+
+	    <managed-bean>
+        <managed-bean-name>renderManager</managed-bean-name>
+        <managed-bean-class>
+            com.icesoft.faces.async.render.RenderManager
+        </managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+	<managed-bean>
+        <managed-bean-name>ciudadAsyncBean</managed-bean-name>
+        <managed-bean-class>trilcejf.utils.CiudadAsyncBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>renderManager</property-name>
+            <value>#{renderManager}</value>
+        </managed-property>
+
+    </managed-bean>
+
+    <managed-bean>
+		<managed-bean-name>beanCiudad</managed-bean-name>
+		<managed-bean-class>trilcejf.utils.BeanCiudad</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+            <property-name>idCiudad</property-name>
+            <value>#{param.idCiudad}</value>
+        </managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<description>
+			Current logged in user's authentication information
+		</description>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>
+			trilcejf.utils.LoginBean
+		</managed-bean-class>
+		<managed-bean-scope>
+		request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>beanLugar</managed-bean-name>
+		<managed-bean-class>trilcejf.utils.BeanLugar</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+            <property-name>idLugar</property-name>
+            <value>#{param.idLugar}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>idCiudad</property-name>
+            <value>#{param.idCiudad}</value>
+        </managed-property>
+	</managed-bean>
+
+	<navigation-rule>
+		<from-view-id>/pages/inicio.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>buscarLugares</from-outcome>
+			<to-view-id>/pages/buscarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/inicio.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>adminCiudades</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/admin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index2.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/errorCrearCiudad.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editarCiudad</from-outcome>
+			<to-view-id>/pages/editarCiudad.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/errorCrearCiudad.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/index2.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/administrarCiudades.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volverInicio</from-outcome>
+			<to-view-id>/pages/inicio.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>crearCiudad</from-outcome>
+			<to-view-id>/pages/crearCiudad.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editarCiudad</from-outcome>
+			<to-view-id>/pages/editarCiudad.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>adminLugares</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>borrarCiudad</from-outcome>
+			<to-view-id>/pages/borrarCiudad.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/crearCiudad.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volverAdministrar</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/editarCiudad.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/index2.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index2.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/borrarCiudad.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volverAdministrar</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/buscarLugares.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volverInicio</from-outcome>
+			<to-view-id>/pages/inicio.jsp</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/administrarLugares.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>crearLugar</from-outcome>
+			<to-view-id>/pages/crearLugar.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editarLugar</from-outcome>
+			<to-view-id>/pages/editarLugar.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>borrarLugar</from-outcome>
+			<to-view-id>/pages/borrarLugar.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/pages/administrarCiudades.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/crearLugar.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/editarLugar.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/borrarLugar.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>volver</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/administrarLugares.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

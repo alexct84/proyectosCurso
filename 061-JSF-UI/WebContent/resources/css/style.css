@@ -1,0 +1,58 @@
+
+body {
+	font-family: Verdana,Arial,default;
+}
+
+img {
+	border: 0;
+}
+
+/**************************
+ * layout
+ **************************/
+#layout {
+	width: 80%;
+	margin: auto;
+}
+
+
+/**************************
+ * top
+ **************************/
+#layout #top {
+	padding: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px;
+	border: 1px solid #999;
+	background-color: #DCE9F0;
+	float: left;
+}
+
+
+/**************************
+ * content
+ **************************/
+#layout #content {
+	clear: both;
+}
+
+
+/**************************
+ * bottom
+ **************************/
+#layout #bottom {
+	float: left; 
+	margin-top: 20px;
+	border-top: 1px;
+	padding: 20px;
+	border: 1px solid #999;
+	background-color: #DCE9F0;
+}
+
+
+/**************************
+ * classes
+ **************************/
+.error {
+	color: red;
+}

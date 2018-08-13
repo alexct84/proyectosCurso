@@ -1,0 +1,91 @@
+<html>
+
+<body>
+<script type="text/javascript">
+    var mvcPage = (function () {
+ 
+        //controller provides control to different actions we want to do on our screen
+        var controller = {
+ 
+            //action to submit form
+            submitForm: function () {
+                if (model.firstName == '')
+                    alert('Please enter firstname');
+                else {
+                    //Write code to submit form, do AJAX etc.. here
+                    model.names.push(model.firstName);
+                    view.renderNames();
+                    view.clear();
+                    model.firstName = "";
+                }
+            },
+            initEvents:function(){
+            	if (window.addEventListener) {
+                    view.submitButton.addEventListener('click', controller.submitForm, true);
+                    view.firstnameInput.addEventListener('change', function () { model.firstName = view.firstnameInput.value }, false);
+                }
+                else if (window.attachEvent) {
+                    view.submitButton.attachEvent('onclick', controller.submitForm, true);
+                    view.firstnameInput.attachEvent('onchange', function () { model.firstName = view.firstnameInput.value }, false);
+                }
+            }
+        };
+ 
+        //views contain reference to all the UI elements we need to play with
+        var view = {
+ 
+            setup: function () {
+                view.firstnameInput = document.getElementById('txtName1');
+                view.submitButton = document.getElementById('btnSubmit');
+                view.namesList = document.getElementById('names');
+            },
+ 
+ 
+            //action to render list of names
+            renderNames: function () {
+                view.namesList.innerText = model.names.join(",");
+            },
+ 
+            clear: function () {
+                view.firstnameInput.value = '';
+            }
+ 
+        };
+ 
+ 
+        //model contains data we need for or screen
+        var model = {
+            firstName: '',
+            names: new Array()
+        };
+ 
+ 
+ 
+        //initialize is the only method accessible outside
+        return {
+            initialize: function () {
+                view.setup();
+                controller.initEvents();
+            }
+ 
+        };
+    });
+     
+</script>
+ 
+ 
+<form action="" id="form1" method="POST">
+Enter a name:
+<input id="txtName1" type="text">
+<input id="btnSubmit" type="button" value="Add Name">
+ 
+<br/>
+Names:
+<div id="names">
+</div>
+</form>
+<script type="text/javascript">
+    mvcPage().initialize();
+</script>
+</body>
+</html>

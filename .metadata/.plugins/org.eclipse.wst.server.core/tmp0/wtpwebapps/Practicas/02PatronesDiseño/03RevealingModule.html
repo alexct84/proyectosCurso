@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var Analytics = (function () {
+	var name = "Fer";
+    var variableOrWhatever = 42;
+    variableOrWhatever *= 1.0;
+
+    var _pushOrSomething = function () {
+        //GoogleAnalytics.initialize(variableOrWhatever);
+        //GoogleAnalytics.somethingOrOther();
+        // Use function.apply to pass the called parameters along
+        //GoogleAnalytics.pushOrSomething.apply(this, arguments);
+        console.log(arguments);
+    };
+
+    var pageView = function () {
+        _pushOrSomething('pageView');
+    };
+
+    var action = function (key) {
+        _pushOrSomething('action', key);
+    };
+
+    return {
+        variableOrWhatever: variableOrWhatever,
+        pageView: pageView,
+        action: action,
+        name: name
+    };
+})();
+
+console.log(Analytics.variableOrWhatever);
+console.log(Analytics.name);
+Analytics.pageView();
+Analytics.action('Hola');
+
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

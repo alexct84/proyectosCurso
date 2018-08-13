@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	//The constructor - like a class, but actually, not really
+	function Person(firstName, lastName, age) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+
+		this.fullName = function() {
+			return 'First Name: ' + this.firstName + ' Last Name: '
+					+ this.lastName + ' Age: ' + this.age;
+		};
+
+		this.setAge = function(age) {
+			this.age = age;
+		}
+
+		this.getAge = function() {
+			return this.age;
+		}
+	}
+
+	// Use it like this:
+	var sam = new Person('Sam', 'Selikoff');
+	console.log(sam.firstName); // "Sam"
+	console.log(sam.fullName()); // "Sam Selikoff"
+
+	sam.firstName = 'Samuel';
+	console.log(sam.fullName()); // Samuel Selikoff
+
+	var silvia = new Person('Silvia', 'Gil', 48);
+	console.log(silvia.fullName());
+	silvia.setAge(35);
+	console.log(silvia.fullName());
+	console.log('Mi edad es: ' + silvia.getAge());
+</script>
+</head>
+<body>
+
+</body>
+</html>

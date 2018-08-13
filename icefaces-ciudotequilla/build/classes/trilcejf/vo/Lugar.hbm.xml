@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+			"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<class name="trilcejf.vo.Lugar" table="lugares" lazy="false"><!-- pag 50 de hibernate_reference v3.2 -->
+		<id name="idLugar" column="id_lugar" type="long"><!-- pag 53. Hb types en 73 -->
+			<generator class="native"/>
+		</id>
+		<property name="nombreLugar"
+				  column="nombre_lugar"
+				  type="string" />
+		<many-to-one name="ciudad"
+					 column="ciudad_id"
+					 class="trilcejf.vo.Ciudad"
+					 /><!-- pag 62 de hibernate_reference v3.2 -->
+	</class>
+</hibernate-mapping>

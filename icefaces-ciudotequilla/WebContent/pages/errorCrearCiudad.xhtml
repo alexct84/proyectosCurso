@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title><h:outputText value="#{msjs.titulo}"/></title>
+		<link href="pages/mycss.css" rel="stylesheet" type="text/css"/>
+		<f:loadBundle basename="mensajes" var="msjs"/>
+	</head>
+	<body>
+	<center>
+	   <ui:composition template="/plantilla.xhtml">
+ 		<ui:define name="body">
+
+		<center>
+			<h:form>
+				<br/>
+				<br/>
+				<H2>
+					<h:outputText  value="Error en la BD es posible que la ciudad ya exista!!! "/>
+				</H2>
+
+				<!--
+
+
+				Also ok trabajando con props directamente.
+				--><!--<h:inputText value="#{beanCiudad.nombreCiudad}"/>
+				<h:inputHidden value="#{beanCiudad.idCiudad}"/>
+
+				-->
+
+				<p>
+					<!-- Si el atributo action se define como literal, no se invoca a ningun metodo del backing bean,
+					sino que directamente se va al recurso especificado -->
+					<h:commandLink value="#{msjs.volver}" action="volver"/>
+				</p>
+			</h:form>
+		</center>
+
+
+			<f:subview id="footer">
+
+			</f:subview>
+			</ui:define>
+	</ui:composition>
+		</center>
+	</body>
+</f:view>
+</html>

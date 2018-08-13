@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<html>
+	    <head>
+
+	    	<title><h:outputText value="#{msjs.titulo}"/></title>
+		<link href="pages/mycss.css" rel="stylesheet" type="text/css"/>
+		<f:loadBundle basename="mensajes" var="msjs"/>
+
+	    </head>
+		<body>
+			<center>
+				<table align="center">
+					<tr>
+						<td colspan="2" width="2000">
+							<ui:insert name="header">
+									<center>
+								    <ui:include src="/header.xhtml">
+								        <ui:param name="sectionName" value="header"/>
+								  </ui:include>
+								  <ice:outputConnectionStatus/>
+								</center>
+							</ui:insert>
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							<table align="center">
+
+								<tr>
+									<td>
+						  				<ui:insert name="body">Default Body</ui:insert>
+						  			</td>
+								</tr>
+						</table>
+					</td>
+					<td valign="top">
+						<ui:insert name="east"></ui:insert>
+					</td>
+				</tr>
+			</table>
+		</center>
+		</body>
+
+	</html>
+
+</f:view>

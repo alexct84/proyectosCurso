@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context definition for MyFaces, Hibernate and Spring Integration application.
+	-->
+<beans>
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSource definition below) -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"><value>/WEB-INF/jdbc.properties</value></property>
+	</bean>
+
+	<!-- Local DataSource that works in any environment -->
+	<!-- Note that DriverManagerDataSource does not pool; it is not intended for production -->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"><value>${jdbc.driverClassName}</value></property>
+		<property name="url"><value>${jdbc.url}</value></property>
+		<property name="username"><value>${jdbc.username}</value></property>
+		<property name="password"><value>${jdbc.password}</value></property>
+
+	</bean>
+
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource"><ref local="dataSource"/></property>
+		<property name="mappingResources">
+		<list>
+			<value>/trilcejf/vo/Ciudad.hbm.xml</value>
+			<value>/trilcejf/vo/Lugar.hbm.xml</value>
+		</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA)
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>-->
+
+
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+	<!-- Data access object: Hibernate implementation.  -->
+
+	<!-- Configuracion de las transacciones -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="transactionTemplate" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="get*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+				<prop key="find*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+				<prop key="load*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+				<prop key="is*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+				<prop key="buscar*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+				<prop key="cargar*">
+					PROPAGATION_REQUIRED,ISOLATION_READ_COMMITTED
+				</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Fin Configuracion de las transacciones -->
+
+
+	<!-- Beans de Ciudades -->
+	<bean id="ciudadDAO" class="trilcejf.dao.impl.CiudadDAOHibernateImpl">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+
+	<bean id="ciudadManager" parent="transactionTemplate">
+		<property name="target">
+			<bean
+				class="trilcejf.manager.impl.CiudadManagerImpl">
+				<property name="ciudadDAO"><ref bean="ciudadDAO"/></property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ciudadDelegate" class="trilcejf.delegate.impl.CiudadDelegateImpl">
+		<property name="ciudadManager"><ref bean="ciudadManager"/></property>
+	</bean>
+	<!-- Fin Beans de Ciudades -->
+
+
+	<!-- Beans de Lugares -->
+	<bean id="lugarDAO" class="trilcejf.dao.impl.LugarDAOHibernateImpl">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+
+	<bean id="lugarManager" parent="transactionTemplate">
+		<property name="target">
+			<bean
+				class="trilcejf.manager.impl.LugarManagerImpl">
+				<property name="lugarDAO"><ref bean="lugarDAO"/></property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="lugarDelegate" class="trilcejf.delegate.impl.LugarDelegateImpl">
+		<property name="lugarManager"><ref bean="lugarManager"/></property>
+	</bean>
+	<!-- Fin Beans de Lugares -->
+
+</beans>

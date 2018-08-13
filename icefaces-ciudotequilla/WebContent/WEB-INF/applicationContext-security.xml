@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security
+                         http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+
+<!-- Implica: mecanismo autenticacion: basico, al acceder al index de la aplic, se asigna al usuario
+		el rol de  IS_AUTHENTICATED_ANONYMOUSLY, ademas se cuenta con pagina de log out y soporte para recirdar
+		al usuario -->
+	<http
+		auto-config="true"
+		access-denied-page="/accessDenied.jsp">
+		<intercept-url pattern="/login.jsf" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/index.jsf" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/pages/inicio.jsf" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/pages/buscarLugares.jsf" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+<!--		<intercept-url pattern="/**" access="IS_AUTHENTICATED_REMEMBERED" />-->
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+
+		<form-login
+			login-processing-url="/j_spring_security_check"
+			login-page="/login.jsf"
+			default-target-url="/"
+			authentication-failure-url="/login.jsf" />
+		<logout
+			logout-url="/logout*"
+			logout-success-url="/" />
+
+	</http>
+
+<!--	<ldap-server id="ldapServer" url="ldap://10.228.25.10:389/dc=trilcejf,dc=com"/>-->
+
+	<authentication-provider>
+		<!--<ldap-user-service server-ref="ldapServer"
+						user-search-filter="uid={0}"
+						group-search-base="ou=groups"
+						group-role-attribute="cn"
+						group-search-filter="member={0}"/>
+--><!--		<password-encoder hash="md5"/>-->
+	    <jdbc-user-service data-source-ref="dataSource"
+	    				   authorities-by-username-query="SELECT ur.mail,r.rol FROM usuarios_roles ur JOIN roles r ON ur.rol_id=r.id_rol WHERE ur.mail=?"
+	    				   users-by-username-query="SELECT mail,password,enabled FROM usuarios WHERE mail=?"
+	    				   />
+   </authentication-provider>
+
+	<!--
+    Usernames/Passwords are
+        rod/koala
+        dianne/emu
+        scott/wombat
+        peter/opal
+    --><!--
+    <authentication-provider>
+        <password-encoder hash="md5"/>
+        <user-service>
+            <user name="rod" password="a564de63c2d0da68cf47586ee05984d7" authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" />
+            <user name="dianne" password="65d15fe9156f9c4bbffd98085992a44e" authorities="ROLE_USER,ROLE_TELLER" />
+            <user name="scott" password="2b58af6dddbd072ed27ffc86725d7d3a" authorities="ROLE_USER" />
+            <user name="peter" password="22b5c9accc6e1ba628cedc63a72d57f8" authorities="ROLE_USER" />
+	    </user-service>
+	</authentication-provider>
+
+--></beans:beans>

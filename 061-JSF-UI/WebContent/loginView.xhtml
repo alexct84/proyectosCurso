@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+ 
+<ui:composition template="./defaultLayout.xhtml">
+    <ui:define name="title">Login</ui:define>
+ 
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="name" value="Nombre" />
+                <h:inputText id="name" label="Nombre" value="#{loginView.name}">
+                    <f:validateBean />
+                    <f:ajax render="nameError" />
+                </h:inputText>
+                <h:message id="nameError" for="name" errorClass="error" />
+ 
+                <h:outputLabel for="password" value="Clave" />
+                <h:inputSecret id="password" label="Clave" value="#{loginView.password}">
+                    <f:validateBean />
+                    <f:ajax render="passwordError" />
+                </h:inputSecret>
+                <h:message id="passwordError" for="password" errorClass="error" />
+            </h:panelGrid>
+ 
+            <h:commandButton action="listTutorialsView" value="Entrar" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
